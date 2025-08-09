@@ -25,7 +25,7 @@ _deps = [
     "beautifulsoup4",
     "black~=24.4.0",
     "dataclasses",
-    "datasets!=2.5.0",
+    "datasets!=2.5.0,<4.0.0",
     "dill<0.3.5",
     "docutils==0.16.0",
     "evaluate>=0.2.0",
