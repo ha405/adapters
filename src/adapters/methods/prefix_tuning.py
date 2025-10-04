@@ -363,12 +363,16 @@ class PrefixTuningLayer(ComposableAdapterLayerBase, nn.Module):
         )
         if prefix_tuning_config is not None:
             num_kv_heads = getattr(self.model_config, "num_key_value_heads", self.model_config.num_attention_heads)
+            head_dim = getattr(self.model_config, "d_kv", None)
+ 
+            if head_dim is None:
+                head_dim = self.model_config.hidden_size // self.model_config.num_attention_heads           
             prefix_id = self.pool.indicate_prefix(
                 adapter_name,
                 self.location_key,
                 n_heads=num_kv_heads,
                 input_size=self.model_config.hidden_size,
-                n_embd_per_head=getattr(self.model_config, "d_kv", None),  # this is currently specific to T5-3B
+                n_embd_per_head=head_dim,
             )
             self.prefixes[adapter_name] = prefix_id
 
